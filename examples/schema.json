@@ -1,0 +1,7 @@
+[
+  {"name":"id","aliases":["Référence"],"type":"text","required":true},
+  {"name":"amount","aliases":["Prix"],"type":"decimal","decimal":",","group":" "},
+  {"name":"date","type":"date","formats":["%d/%m/%Y","%Y-%m-%d"]},
+  {"name":"duration_seconds","aliases":["Durée"],"type":"duration","unit":"hh:mm"},
+  {"name":"status","aliases":["État"],"type":"status","values":{"OK":"approved","En attente":"pending"}}
+]

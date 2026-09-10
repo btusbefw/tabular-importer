@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Import de données — CDRXRX</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body><main>
+<header><span class="brand">CDRXRX / OUTILS</span><h1>Importer, vérifier, exporter.</h1><p>CSV, Excel et Excel ancien. Les lignes à corriger restent visibles.</p></header>
+<div class="workspace"><section aria-labelledby="source-title"><h2 id="source-title"><span>1</span> Fichier source</h2>
+<label for="file">Choisir un fichier · 10 Mio maximum</label><input type="file" id="file" accept=".csv,.xlsx,.xls">
+<p id="filename" class="muted">Aucun fichier sélectionné</p>
+<button id="demo" class="secondary">Essayer avec des données fictives</button>
+<details><summary>Options de lecture</summary><label for="sheet">Feuille Excel (si plusieurs)</label><input id="sheet" placeholder="Nom exact de la feuille">
+<label for="encoding">Encodage CSV</label><select id="encoding"><option value="utf-8-sig">UTF-8</option><option value="cp1252">Windows-1252</option><option value="utf-16">UTF-16</option></select>
+<label for="delimiter">Séparateur CSV</label><select id="delimiter"><option value="">Détecter</option value=";">Point-virgule</option><option value=",">Virgule</option><option value="tab">Tabulation</option><option value="|">Barre verticale</option></select></details>
+<h2><span>2</span> Structure cible</h2><label for="schemaFile">Charger le schéma de votre projet (.json)</label><input type="file" id="schemaFile" accept=".json">
+<details><summary>Consulter ou adapter les règles</summary><p class="muted">Le schéma d’exemple est fictif. Remplacez-le par les règles validées pour votre projet.</p><label for="schema">Champs, types et règles</label><textarea id="schema" rows="14" spellcheck="false"></textarea></details>
+<button id="analyze">Lire le fichier et proposer les correspondances</button>
+<p class="muted">Traitement sur ce serveur local. Aucun compte externe. Les fichiers ne sont pas conservés après traitement.</p></section>
+<section aria-labelledby="mapping-title"><h2 id="mapping-title"><span>3</span> Correspondances et contrôle</h2>
+<p id="empty">Choisissez un fichier pour associer ses colonnes aux champs attendus.</p><div id="mapping"></div>
+<button id="normalize" disabled>Appliquer les correspondances</button><p id="notice" role="status" aria-live="polite"></p>
+<ul id="notes"></ul><div id="error" role="alert"></div>
+</section></div>
+<section id="results" hidden><div class="result-head"><div><h2>Résultat du contrôle</h2><p id="counts"></p></div><div class="downloads"><button id="json" class="secondary">Exporter JSON complet</button><button id="csv" class="secondary">Exporter CSV</button></div></div>
+<p class="muted">Aperçu : 100 premières lignes. Les exports contiennent toutes les lignes, y compris celles à corriger. Le JSON conserve aussi les valeurs sources.</p>
+<div class="table-scroll" tabindex="0" aria-label="Aperçu des données normalisées"><table><thead id="head"></thead><tbody id="body"></tbody></table></div></section>
+</main></body></html>
