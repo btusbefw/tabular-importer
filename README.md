@@ -1,6 +1,6 @@
 # Configurable Excel/CSV importer
 
-An independent synthetic-data prototype for configurable spreadsheet imports. It has not been validated against a client dataset. The ingestion/normalization engine, CLI, local upload/mapping/preview interface and stateless API are implemented.23 automated tests pass. Browser interaction and visual QA remain unverified; buyer-specific acceptance is outstanding.
+An independent synthetic-data prototype for configurable spreadsheet imports. It has not been validated against a client dataset. The ingestion/normalization engine, CLI, local upload/mapping/preview interface and stateless API are implemented.23 automated tests pass. Desktop browser checks cover the synthetic example, mapping edits, required-field errors, stale-result clearing and schema-error recovery. Native file selection, saved downloads, mobile/visual and buyer-specific acceptance remain outstanding; see BROWSER-QA.md.
 
 ## Run
 
@@ -27,13 +27,13 @@ Schema examples cover text, decimal, date, duration and status. Dates are tried 
 .venv/bin/uvicorn api:app --host 127.0.0.1 --port 8017
 ```
 
-Open http://127.0.0.1:8017/ locally. Select your file and load your project schema, or click the clearly labelled synthetic example. Inspect suggested column mappings, adjust dropdowns and apply. Review the first100rows and download all rows as JSON or CSV. Invalidating file/schema/options/mappings clears stale results. No public deployment or external accounts are involved. The HTML, CSS and JavaScript have no external assets. Static serving and JavaScript syntax were verified; actual browser interaction, mobile layout and keyboard flow have not yet been tested.
+Open http://127.0.0.1:8017/ locally. Select your file and load your project schema, or click the clearly labelled synthetic example. Inspect suggested column mappings, adjust dropdowns and apply. Review the first100rows and download all rows as JSON or CSV. Invalidating file/schema/options/mappings clears stale results. No public deployment or external accounts are involved. The HTML, CSS and JavaScript have no external assets. Static serving and JavaScript syntax were verified. Selected desktop browser interactions were verified (BROWSER-QA.md); native file selection, saved-download contents, mobile layout and keyboard flow remain unverified.
 
 `POST /api/import` accepts multipart fields `file`, `schema` (JSON rule array), optional `mapping` (JSON target/source object), `sheet`, `encoding`, `delimiter`, `output` (`json` or `csv`). Add header `X-Importer-Client: local-ui`. JSON response includes source headers, suggested/applied mapping, notes, total/invalid counts and every source/normalized/error record. Default return is JSON. `GET /health` checks service availability. Each request contains its input; no upload IDs or retained file storage exist.
 
 Request streams are bounded before multipart parsing; files are limited to10MiB and total request metadata adds256KiB. Rule text is limited to64KiB. Cross-origin requests are rejected, no CORS permission is granted, and response caching is disabled. The local client header is an anti-cross-site measure, **not authentication**. Do not bind to a public interface; a client deployment requires agreed authentication/network isolation and process resource limits. Multipart libraries may use temporary spooling during the request, closed afterward.
 
-API tests include genuine multipart CSV/XLSX, mapping override, CSV download, source/field errors, malformed rule shapes, native Excel times, limits and origin/host rejection. Tests use FastAPI's in-process test client; there is no claim that network deployment or browser automation was tested. A test dependency emits an httpx deprecation warning; tests still pass.
+API tests include genuine multipart CSV/XLSX, mapping override, CSV download, source/field errors, malformed rule shapes, native Excel times, limits and origin/host rejection. Tests use FastAPI's in-process test client; they do not themselves establish network deployment or browser correctness; separate desktop observations are in BROWSER-QA.md. A test dependency emits an httpx deprecation warning; tests still pass.
 
 ## Formula handling and limits
 
@@ -45,7 +45,7 @@ Input limits:10MiB,10000data rows,200columns. XLSX also limits ZIP entry count a
 
 ## Remaining acceptance work
 
-- Browser-level verification of upload → mapping → normalization → warnings/preview → complete downloads, including stale-state changes and narrow screens.
+- Complete browser verification of native file upload and saved download contents, keyboard navigation and narrow-screen layout. Synthetic example, mapping changes, stale-state clearing and malformed-schema recovery have been checked.
 - Buyer target schema, representative XLS/XLSX/CSV files, expected mappings, dates/currencies/durations/status rules, volume and export preferences.
 - Agreement on dataset confidentiality, deployment scope and final acceptance.
 - Full integration tests on representative anonymized samples.

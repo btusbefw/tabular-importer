@@ -11,7 +11,9 @@ function setBusy(value) {
   for (const select of $('mapping').querySelectorAll('select')) select.disabled = value;
 }
 function readSchema() {
-  const schema = JSON.parse($('schema').value);
+  let schema;
+  try { schema = JSON.parse($('schema').value); }
+  catch (_) { throw new Error('Le schéma JSON est invalide. Vérifiez les guillemets, les virgules et les crochets, ou rechargez un fichier de règles valide.'); }
   if (!Array.isArray(schema) || !schema.length || schema.some(r => !r || typeof r.name !== 'string')) throw new Error('Le schéma doit contenir des champs nommés.');
   return schema;
 }
