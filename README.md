@@ -1,6 +1,6 @@
 # Configurable Excel/CSV importer
 
-An independent synthetic-data prototype for configurable spreadsheet imports. It has not been validated against a client dataset. The ingestion/normalization engine, CLI, local upload/mapping/preview interface and stateless API are implemented.23 automated tests pass. Desktop browser checks cover the synthetic example, mapping edits, required-field errors, stale-result clearing and schema-error recovery. Native file selection, saved downloads, mobile/visual and buyer-specific acceptance remain outstanding; see BROWSER-QA.md.
+An independent synthetic-data prototype for configurable spreadsheet imports. It has not been validated against a client dataset. The ingestion/normalization engine, CLI, local upload/mapping/preview interface and stateless API are implemented.23 automated tests pass. Desktop browser checks cover the synthetic example, mapping edits, required-field errors, stale-result clearing and schema-error recovery. Native CSV/schema selection, saved JSON/CSV contents and desktop visual layout are also verified on synthetic data. XLS/XLSX native selection, mobile/keyboard and buyer-specific acceptance remain outstanding; see BROWSER-QA.md.
 
 ## Run
 
@@ -27,7 +27,7 @@ Schema examples cover text, decimal, date, duration and status. Dates are tried 
 .venv/bin/uvicorn api:app --host 127.0.0.1 --port 8017
 ```
 
-Open http://127.0.0.1:8017/ locally. Select your file and load your project schema, or click the clearly labelled synthetic example. Inspect suggested column mappings, adjust dropdowns and apply. Review the first100rows and download all rows as JSON or CSV. Invalidating file/schema/options/mappings clears stale results. No public deployment or external accounts are involved. The HTML, CSS and JavaScript have no external assets. Static serving and JavaScript syntax were verified. Selected desktop browser interactions were verified (BROWSER-QA.md); native file selection, saved-download contents, mobile layout and keyboard flow remain unverified.
+Open http://127.0.0.1:8017/ locally. Select your file and load your project schema, or click the clearly labelled synthetic example. Inspect suggested column mappings, adjust dropdowns and apply. Review the first100rows and download all rows as JSON or CSV. Invalidating file/schema/options/mappings clears stale results. No public deployment or external accounts are involved. The HTML, CSS and JavaScript have no external assets. Static serving and JavaScript syntax were verified. Selected desktop browser interactions were verified (BROWSER-QA.md); native CSV/schema selection and saved JSON/CSV contents also pass on synthetic data; XLS/XLSX native selection, mobile layout and keyboard flow remain unverified.
 
 `POST /api/import` accepts multipart fields `file`, `schema` (JSON rule array), optional `mapping` (JSON target/source object), `sheet`, `encoding`, `delimiter`, `output` (`json` or `csv`). Add header `X-Importer-Client: local-ui`. JSON response includes source headers, suggested/applied mapping, notes, total/invalid counts and every source/normalized/error record. Default return is JSON. `GET /health` checks service availability. Each request contains its input; no upload IDs or retained file storage exist.
 
@@ -45,7 +45,7 @@ Input limits:10MiB,10000data rows,200columns. XLSX also limits ZIP entry count a
 
 ## Remaining acceptance work
 
-- Complete browser verification of native file upload and saved download contents, keyboard navigation and narrow-screen layout. Synthetic example, mapping changes, stale-state clearing and malformed-schema recovery have been checked.
+- Complete browser verification of native XLS/XLSX file upload, keyboard navigation and narrow-screen layout. Native CSV/schema selection and saved JSON/CSV contents are now verified. Synthetic example, mapping changes, stale-state clearing and malformed-schema recovery have been checked.
 - Buyer target schema, representative XLS/XLSX/CSV files, expected mappings, dates/currencies/durations/status rules, volume and export preferences.
 - Agreement on dataset confidentiality, deployment scope and final acceptance.
 - Full integration tests on representative anonymized samples.
